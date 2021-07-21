@@ -1,8 +1,8 @@
 // -------------------------------------------------- CONEXÃO COM A API -----------------------------------------------
 
 
-const GoogleSpreadsheet = require('google-spreadsheet')          // Importando o nosso módulo
-const credentials = require('../credentials.json')                    // Importando as nossas credenciais
+const GoogleSpreadsheet = require('google-spreadsheet')          // Carregando o nosso módulo através do require
+const credentials = require('../credentials.json')              // Carreagando nossas credenciais
 const { promisify } = require('util')                           // Promisificando para tornar o código mais simples de ser escrito
 
 const docId = '1Lxp6zToNLQ826BmD9DkFJkyOi3DBQan5vnIQK0GCwWc'    // Identificador da nossa planilha
@@ -33,7 +33,7 @@ const InsertingSheet = async() => { // Função responsável por inserir um novo
     const rows = await promisify(worksheet.getRows)({})
 
     //Adicionando novos elementos
-    await promisify (worksheet.addRow)({idProd: identificador, descricao: descr, preco: prec, quantidade: qtd})       
+    await promisify (worksheet.addRow)({idProd: identificador, descricao: descr, preco: prec, quantidade: qtd, nome: nome})       
 }
 
 
@@ -66,7 +66,7 @@ exports.SearchInSheet = async (req, res) => {
     const rows = await promisify(worksheet.getRows)({
         query: `identificador = ${identificador}` // esse identificador é o id do produto
     })
-    res.status(200).send(rows.valor); // Mostrando um retorno e esse é o produto que foi buscado pelo vendedor
+    res.status(200).send(rows.valor); // Mostrando um retorno para o usuário e esse é o produto que foi buscado pelo vendedor
 };
 
 
