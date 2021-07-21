@@ -5,69 +5,47 @@ const { promisify } = require('util')                           // Promisificand
 const docId = '1Lxp6zToNLQ826BmD9DkFJkyOi3DBQan5vnIQK0GCwWc'    // Identificador da nossa planilha
 const doc   = new GoogleSpreadsheet(docId)                      // Citando o documentado que será acessado
 
-/* Antes de fazer o promisify
 
-doc.useServiceAccountAuth(credentials, err => { // Acessando a planilha
-    doc.getInfo((err, info) => {
-        console.log(info) // Mostrando informações sobre a planilha
-    })
-    console.log('err', err) //  Caso não seja possível, o acesso, um erro é retornado
-}) 
-
-*/
-
-var identificador = 55
-var descr = 'Creme de barbear'
-var prec = 31
-var qtd = 10
-
-var id_test = 1
-
-const accessSheet = async() => {
+const SearchInSheet = async() => {
     const doc = new GoogleSpreadsheet(docId)
     await promisify(doc.useServiceAccountAuth)(credentials)
-    const info = await promisify(doc.getInfo)() // Obtendo as mesmas informações sobre a planilha que havia sido mostrada acima
+    // const info = await promisify(doc.getInfo)() // Obtendo informações sobre a planilha
     const worksheet = info.worksheets[0]
     const rows = await promisify(worksheet.getRows)({
-        query: `identificador = ${id_test}` // Usando essa query para fazer busca mas não foi possível acessar o valor de uma variável   
+        query: `identificador = ${id_test}` // Usando essa query para fazer busca através do Id   
     })
-
-    //console.log(rows)
-
-    // Lendo colunas da planilha
-    /*rows.forEach(row => {
-        console.log('A descrição do produto é: ' + row.descricao + '\n' + 'O seu valor é: '+ row.valor + '\n' + 'A quantidade de itens é: ' + row.quantidade)
-    }) */
-
-    /* Adicionando novos elementos
-        await promisify (worksheet.addRow)({idProd: identificador, descricao: descr, preco: prec, quantidade: qtd})    
-    */
-
     rows.forEach(row => {
-        console.log(row.descricao)
+        console.log(row.descricao, row.nome) // Mostrando a descrição e o nome do produto
     })  
 }
-
-//accessSheet()
 
 
 const InsertingSheet = async() => {
     const doc = new GoogleSpreadsheet(docId)
     await promisify(doc.useServiceAccountAuth)(credentials)
-    const info = await promisify(doc.getInfo)() // Obtendo as mesmas informações sobre a planilha que havia sido mostrada acima
     const worksheet = info.worksheets[0]
     const rows = await promisify(worksheet.getRows)({})
 
     //Adicionando novos elementos
-    await promisify (worksheet.addRow)({idProd: identificador, descricao: descr, preco: prec, quantidade: qtd})    
-
-    rows.forEach(row => {
-        console.log(row.descricao)
-    })   
+    await promisify (worksheet.addRow)({idProd: identificador, descricao: descr, preco: prec, quantidade: qtd})       
 }
 
-// InsertingSheet()
+const DeletingInSheet = async() => {
+    const doc = new GoogleSpreadsheet(docId)
+    await promisify(doc.useServiceAccountAuth)(credentials)
+    const worksheet = info.worksheets[0]
+    const rows = await promisify(worksheet.getRows)({
+        query: `identificador = ${id_test}` // Usando essa query para fazer buscar através do Id e excluir esse produto  
+    })
 
+    rows.forEach(row => {
+        row.del()
+    }) 
+}
+
+
+
+// PAREI AQUI...
 
 exports.listarProdutos = async (req, res) => {
     const doc = new GoogleSpreadsheet(docId)
@@ -79,8 +57,6 @@ exports.listarProdutos = async (req, res) => {
     })
     res.status(200).send(rows.valor);
 };
-
-
 
 
 exports.cadastrarProduto = (req, res) => {
