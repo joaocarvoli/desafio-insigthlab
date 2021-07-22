@@ -51,6 +51,10 @@ const DeletingInSheet = async() => { // Função responsável por deletar um pro
 }
 
 
+
+// Falta uma função para deletar uma quantidade de produtos específica. 
+
+
 // ------------------------------------------------ EXPORTS ------------------------------------------------------------
 
 // As funções abaixo são responsáveis por exportar as funções para que elas possam ser usadas em outros arquivos

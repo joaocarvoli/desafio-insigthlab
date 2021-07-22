@@ -4,7 +4,7 @@ module.exports = app => {
     const products = require('../controllers/ProductsController'); 
   
     // Métodos de requisição HTTP
-    var router = require("express").Router();
+    var router = require("express").Router(); // DÚVIDA: OQ ESSA LINHA FAZ ALÉM DE IMPORTAR?
   
     // Cadastrar produto
     router.post("/register", products.InsertingSheet); // Esse método é utilizado para submeter uma entidade (o próprio navegador) 
@@ -20,5 +20,7 @@ module.exports = app => {
     // Excluir produto
     router.delete("/delete", products.DeletingInSheet); // Esse método é responsável por remover algum recurso específico.
   
-    app.use('/api/products', router);
+    app.use('/api/products', router); 
+    
+    // DÚVIDA: Essa é uma rota que é processada antes das outras mais específicas?
 }
