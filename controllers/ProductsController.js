@@ -63,37 +63,56 @@ exports.SearchInSheet = async (req, res) => {
     await promisify(doc.useServiceAccountAuth)(credentials)
     const info = await promisify(doc.getInfo)()
     const worksheet = info.worksheets[0]
+    var {id, nome} = req.query
     const rows = await promisify(worksheet.getRows)({
-        query: `identificador = ${identificador}` // esse identificador é o id do produto
+        query: `identificador = ${id}`, // Ver como usar duas query - Multi query request
+        query: `nome = ${nome}`         // Por enquanto, apenas essa query funciona
     })
-    res.status(200).send(rows.valor); // Mostrando um retorno para o usuário e esse é o produto que foi buscado pelo vendedor
+    
+    const data = {
+        Nome: rows[0].nome,
+        Descricao: rows[0].descricao
+    }
+    res.status(200).send(data); // Mostrando um retorno para o usuário e esse é o produto que foi buscado pelo vendedor
 };
 
 
 
-exports.InsertingSheet = async() => {
+exports.InsertingSheet = async(req, res) => {
     const doc = new GoogleSpreadsheet(docId)
     await promisify(doc.useServiceAccountAuth)(credentials)
+    const info = await promisify(doc.getInfo)()
     const worksheet = info.worksheets[0]
     const rows = await promisify(worksheet.getRows)({})
 
     //Adicionando novos elementos
-    await promisify (worksheet.addRow)({idProd: identificador, descricao: descr, preco: prec, quantidade: qtd})
-    // Precisa de algum res sendo que é uma inserção? 
+    const data = {
+        identificador: req.body.identificador,
+        nome: req.body.nome,
+        descricao: req.body.descricao,
+        valor: req.body.valor,
+        quantidade: req.body.quantidade
+    }
+
+    await promisify (worksheet.addRow)(data)
+    res.status(201).send({message:'The product was successfully registered'}); 
 }
 
 
-exports.DeletingInSheet = async() => {
+exports.DeletingInSheet = async(req, res) => {
     const doc = new GoogleSpreadsheet(docId)
     await promisify(doc.useServiceAccountAuth)(credentials)
     const worksheet = info.worksheets[0]
+    var {id, nome} = req.query
     const rows = await promisify(worksheet.getRows)({
-        query: `identificador = ${identificador}` // esse identificador é o id do produto
+        query: `identificador = ${id}`, // Ver como usar duas query - Multi query request
+        query: `nome = ${nome}`        // Por enquanto, apenas essa query funciona
     })
 
     rows.forEach(row => {
         row.del()
-    }) 
+    })
+    res.status(201).send({message:'The product was successfully deleted'}); 
 }
 
 
