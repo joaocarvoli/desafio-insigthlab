@@ -1,5 +1,11 @@
-import Head from 'next/head'
-import Link from 'next/link'
+import Head from 'next/head' // Aqui, está sendo importado a função de cabeçalho do next
+import Link from 'next/link' // O link que é responsável por permitir que usémos rotas como links
+// para quando formos usar a nossa navbar do bootstrap
+
+
+// Esse arquivo Menu é um componente. Os componentes são renderizados em todas as páginas, ou seja, eles aparecem em todas páginas.
+// O navbar é importado direto do bootstrap e já vem "construído" no link: https://getbootstrap.com/docs/5.0/components/navbar/
+// O navbar é responsivo por padrão.
 
 export default function Menu() {
   return (

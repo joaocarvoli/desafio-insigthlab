@@ -4,6 +4,8 @@ import Link from 'next/link'
 
 import {useState} from 'react'
 
+// Usando os estados e nesse caso o de input de dados onde cada variável recebe um "texto" para ser armazenado
+// Esses valores que estão sendo armazenados são usados para serem passados
 const ProductCreate = () => {
   const [nome, setNome] = useState('')
   const [valor, setValor] = useState('')
@@ -17,7 +19,7 @@ const ProductCreate = () => {
       quantidade: quantidade,
       descricao: descricao,
     }
-
+  // Passando os dados para a API do google sheets fazer o cadastro na planilha, através da rota. 
     await api.post('/api/products/register', data).then(res => {
       Alert("Produto cadastrado com sucesso")
     }).catch(err => {
@@ -54,7 +56,7 @@ const ProductCreate = () => {
           <label for="descricao" className="form-label">Descrição</label>
           <textarea className="form-control" id="descricao" rows="3" onChange={(e) => setDescricao(e.target.value)} placeholder="Descrição do produto"></textarea>
         </div>
-        {nome != '' &&  valor != '' && quantidade != '' && descricao != '' ? (
+        {nome != '' &&  valor != '' && quantidade != '' && descricao != '' ? ( // Condição que checa se todos os parâmetros para o cadastro form passados, caso contrário, o botão fica indisponível.
           <button className="btn btn-primary" onClick={() => sendData()}>Cadastrar produto</button>
         ) : (
           <button className="btn btn-primary disabled" disabled='disabled'>Cadastrar produto</button>
