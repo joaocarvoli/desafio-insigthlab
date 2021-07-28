@@ -37,7 +37,7 @@ const ProductList = ({ products, error }) => {
               <tr key={product.nome}>
                 <td>{product.nome}</td>
                 <td>R$ {product.valor}</td>
-                <td style={product.quantidade < x && {backgroundColor: 'red'}}>{product.quantidade}</td>
+                <td style={product.quantidade < 30 && {backgroundColor: 'red'}}>{product.quantidade}</td>
                 <td>
                   <Link href={`/${product.nome}`}><button className="btn btn-primary text-white btn-small">Ver</button></Link>
                   &nbsp;<button className="btn btn-danger btn-small ml-3" onClick={() => deleteProduct(product.nome)}>Excluir</button>
