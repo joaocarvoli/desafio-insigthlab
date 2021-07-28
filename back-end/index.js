@@ -11,7 +11,7 @@ const app = express(); // Instanciando uma cópia de todo o framework para a var
 // O express é um framework minimalista (!= fullstack) usado para a criação de aplicações web usando o node
 
 var corsOptions = {                          // Permissão para requisitar os dados da API
-  origin: "http://localhost:8081" 
+  origin: "http://localhost:3000" 
 }; 
 
 app.use(cors(corsOptions));                 // DÚVIDA: Oq isso está fazendo?

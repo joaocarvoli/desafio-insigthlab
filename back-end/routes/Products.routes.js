@@ -13,7 +13,9 @@ module.exports = app => {
     //Listar produtos
     router.get("/list", products.SearchInSheet); // Esse método é responsável por fazer solicitações específicas e
     //  deve receber como retorno, apenas dados.
-  
+    
+    router.get("/listAll", products.ListInSheet); 
+
     // Editar produto
     //router.put("/edit", produto.editarProduto); // Ainda não foi possível encontrar na API essa função.
   

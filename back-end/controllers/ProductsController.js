@@ -67,17 +67,34 @@ exports.SearchInSheet = async (req, res) => {
     await promisify(doc.useServiceAccountAuth)(credentials)
     const info = await promisify(doc.getInfo)()
     const worksheet = info.worksheets[0]
-    var {id, nome} = req.query
+    var {nome} = req.query
     const rows = await promisify(worksheet.getRows)({
-        query: `identificador = ${id}`, // Ver como usar duas query - Multi query request
-        query: `nome = ${nome}`         // Por enquanto, apenas essa query funciona
+        query: `nome = ${nome}`
     })
     
     const data = {
         Nome: rows[0].nome,
-        Descricao: rows[0].descricao
+        Descricao: rows[0].descricao,
+        Valor: rows[0].valor, 
+        Quantidade: rows[0].quantidade
     }
     res.status(200).send(data); // Mostrando um retorno para o usuário e esse é o produto que foi buscado pelo vendedor
+};
+
+exports.ListInSheet = async (req, res) => {
+    const doc = new GoogleSpreadsheet(docId)
+    await promisify(doc.useServiceAccountAuth)(credentials)
+    const info = await promisify(doc.getInfo)()
+    const worksheet = info.worksheets[0]
+    var {id, nome} = req.query
+    const rows = await promisify(worksheet.getRows)({
+    })
+    
+    const data = {
+        Nome: rows.nome,
+        Identificador: rows.identificador
+    }
+    res.status(200).send(rows); // Mostrando um retorno para o usuário e esse é o produto que foi buscado pelo vendedor
 };
 
 
@@ -91,7 +108,6 @@ exports.InsertingSheet = async(req, res) => {
 
     //Adicionando novos elementos
     const data = {
-        identificador: req.body.identificador,
         nome: req.body.nome,
         descricao: req.body.descricao,
         valor: req.body.valor,
@@ -106,10 +122,10 @@ exports.InsertingSheet = async(req, res) => {
 exports.DeletingInSheet = async(req, res) => {
     const doc = new GoogleSpreadsheet(docId)
     await promisify(doc.useServiceAccountAuth)(credentials)
+    const info = await promisify(doc.getInfo)()
     const worksheet = info.worksheets[0]
-    var {id, nome} = req.query
+    var {nome} = req.query
     const rows = await promisify(worksheet.getRows)({
-        query: `identificador = ${id}`, // Ver como usar duas query - Multi query request
         query: `nome = ${nome}`        // Por enquanto, apenas essa query funciona
     })
 
