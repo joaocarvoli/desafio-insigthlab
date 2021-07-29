@@ -1,5 +1,5 @@
 # Desafio de Interoperabilidade do Insigth Lab :rocket: :astronaut:
-> Projeto em Desenvolvimento... :construction:
+> Projeto em Desenvolvimento :construction:
 - [Back-end do projeto](https://github.com/joaocarvoli/desafio-insigthlab/tree/main/back-end)
 - [Front-end do projeto](https://github.com/joaocarvoli/desafio-insigthlab/tree/main/front-end)
 
